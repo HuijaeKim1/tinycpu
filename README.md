@@ -1,6 +1,6 @@
 # Tiny CPU
 
-A simple 8-bit CPU emulator and assembler written in C.
+A 8-bit CPU emulator and assembler written in C.
 
 The project implements a small custom instruction set and simulates the fetch-decode-execute cycle of a CPU. Assembly programs are translated into raw 8-bit machine code by the assembler and then loaded and executed by the CPU emulator.
 
