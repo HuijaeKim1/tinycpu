@@ -71,7 +71,7 @@ void execute(uint8_t opcode, uint8_t regA, uint8_t regB, uint8_t registers[], ui
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)       // argument check (to make sure user entered 2 arguments after executable file name)
+    if (argc != 2)       // make sure user entered one program file
     {
         printf("Usage: ./tinycpu program.bin\n");
         return 1;
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     uint8_t running = 1;                    // CPU running flag
 
 
-    registers[0] = 2;
+    registers[0] = 100;
     registers[1] = 4;
     registers[2] = 7;
     registers[3] = 1;
@@ -108,6 +108,9 @@ int main(int argc, char *argv[])
 
     while (running) {
 
+        uint8_t currentPC = pc;
+
+
         // FETCH
         uint8_t instruction = fetch(memory, &pc);
 
@@ -119,6 +122,43 @@ int main(int argc, char *argv[])
 
         decode(instruction, &opcode, &regA, &regB);
 
+        printf("PC=%u  Instruction=0x%02X  ", currentPC, instruction);
+
+        switch (opcode) {
+            case 0:
+                printf("HALT");
+                break;
+
+            case 1:
+                printf("ADD R%u R%u", regA, regB);
+                break;
+
+            case 2:
+                printf("SUB R%u R%u", regA, regB);
+                break;
+
+            case 3:
+                printf("AND R%u R%u", regA, regB);
+                break;
+
+            case 4:
+                printf("OR R%u R%u", regA, regB);
+                break;
+
+            case 5:
+                printf("LOAD R%u R%u", regA, regB);
+                break;
+
+            case 6:
+                printf("STORE R%u R%u", regA, regB);
+                break;
+
+            case 7:
+                printf("JUMP R%u", regA);
+                break;
+            }
+
+        printf("\n");
 
         // EXECUTE
         execute(opcode, regA, regB, registers, memory, &pc, &running);
